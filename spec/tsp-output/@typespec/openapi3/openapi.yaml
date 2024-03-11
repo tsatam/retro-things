@@ -14,7 +14,7 @@ paths:
       tags:
         - Teams
       operationId: Teams_list
-      description: List teams the user has access to
+      summary: List teams the user has access to
       parameters: []
       responses:
         '200':
@@ -24,14 +24,14 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Teams.Team'
+                  $ref: '#/components/schemas/Team'
         '401':
           description: Access is unauthorized.
     post:
       tags:
         - Teams
       operationId: Teams_create
-      description: Create a new team
+      summary: Create a new team
       parameters: []
       responses:
         '201':
@@ -43,26 +43,22 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Teams.Team'
-  /teams/{id}:
+              $ref: '#/components/schemas/Team'
+  /teams/{teamId}:
     get:
       tags:
         - Teams
       operationId: Teams_read
-      description: Retrieve a single team
+      summary: Retrieve a single team
       parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            $ref: '#/components/schemas/Id'
+        - $ref: '#/components/parameters/team'
       responses:
         '200':
           description: The request has succeeded.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Teams.Team'
+                $ref: '#/components/schemas/Team'
         '401':
           description: Access is unauthorized.
         '404':
@@ -71,20 +67,16 @@ paths:
       tags:
         - Teams
       operationId: Teams_update
-      description: Update a single team
+      summary: Update a single team
       parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            $ref: '#/components/schemas/Id'
+        - $ref: '#/components/parameters/team'
       responses:
         '200':
           description: The request has succeeded.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Teams.Team'
+                $ref: '#/components/schemas/Team'
         '401':
           description: Access is unauthorized.
         '404':
@@ -94,15 +86,15 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Teams.TeamUpdate'
+              $ref: '#/components/schemas/TeamUpdate'
   /teams/{teamId}/actionitems:
     get:
       tags:
         - Action Items
-      operationId: ByTeam_list
-      description: List all action items belonging to the specified team
+      operationId: ActionItems_list
+      summary: List all action items belonging to the specified team
       parameters:
-        - $ref: '#/components/parameters/ActionItems.ByTeam.Parameters'
+        - $ref: '#/components/parameters/team'
       responses:
         '200':
           description: The request has succeeded.
@@ -111,7 +103,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/ActionItems.ActionItem'
+                  $ref: '#/components/schemas/ActionItem'
         '401':
           description: Access is unauthorized.
         '404':
@@ -119,17 +111,17 @@ paths:
     post:
       tags:
         - Action Items
-      operationId: ByTeam_create
-      description: Create a new action item belonging to the specified team
+      operationId: ActionItems_create
+      summary: Create a new action item belonging to the specified team
       parameters:
-        - $ref: '#/components/parameters/ActionItems.ByTeam.Parameters'
+        - $ref: '#/components/parameters/team'
       responses:
         '200':
           description: The request has succeeded.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ActionItems.ActionItem'
+                $ref: '#/components/schemas/ActionItem'
         '401':
           description: Access is unauthorized.
         '404':
@@ -139,27 +131,23 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ActionItems.ActionItem'
-  /teams/{teamId}/actionitems/{id}:
+              $ref: '#/components/schemas/ActionItem'
+  /teams/{teamId}/actionitems/{actionitemId}:
     get:
       tags:
         - Action Items
-      operationId: ByTeam_read
-      description: Retrieve a single action item belonging to the specified team
+      operationId: ActionItems_read
+      summary: Retrieve a single action item belonging to the specified team
       parameters:
-        - $ref: '#/components/parameters/ActionItems.ByTeam.Parameters'
-        - name: id
-          in: path
-          required: true
-          schema:
-            $ref: '#/components/schemas/Id'
+        - $ref: '#/components/parameters/team'
+        - $ref: '#/components/parameters/actionItem'
       responses:
         '200':
           description: The request has succeeded.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ActionItems.ActionItem'
+                $ref: '#/components/schemas/ActionItem'
         '401':
           description: Access is unauthorized.
         '404':
@@ -167,22 +155,18 @@ paths:
     patch:
       tags:
         - Action Items
-      operationId: ByTeam_update
-      description: Update a single action item belonging to the specified team
+      operationId: ActionItems_update
+      summary: Update a single action item belonging to the specified team
       parameters:
-        - $ref: '#/components/parameters/ActionItems.ByTeam.Parameters'
-        - name: id
-          in: path
-          required: true
-          schema:
-            $ref: '#/components/schemas/Id'
+        - $ref: '#/components/parameters/team'
+        - $ref: '#/components/parameters/actionItem'
       responses:
         '200':
           description: The request has succeeded.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ActionItems.ActionItem'
+                $ref: '#/components/schemas/ActionItem'
         '401':
           description: Access is unauthorized.
         '404':
@@ -192,34 +176,30 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ActionItems.ActionItemUpdate'
+              $ref: '#/components/schemas/ActionItemUpdate'
     delete:
       tags:
         - Action Items
-      operationId: ByTeam_delete
-      description: Delete a single action item belonging to the specified team
+      operationId: ActionItems_delete
+      summary: Delete a single action item belonging to the specified team
       parameters:
-        - $ref: '#/components/parameters/ActionItems.ByTeam.Parameters'
-        - name: id
-          in: path
-          required: true
-          schema:
-            $ref: '#/components/schemas/Id'
+        - $ref: '#/components/parameters/team'
+        - $ref: '#/components/parameters/actionItem'
       responses:
         '200':
           description: The request has succeeded.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ActionItems.ActionItem'
+                $ref: '#/components/schemas/ActionItem'
   /teams/{teamId}/retros:
     get:
       tags:
         - Retros
-      operationId: ByTeam_list
-      description: List retros belonging to the specified team
+      operationId: Retros_list
+      summary: List retros belonging to the specified team
       parameters:
-        - $ref: '#/components/parameters/Retros.ByTeam.Parameters'
+        - $ref: '#/components/parameters/team'
       responses:
         '200':
           description: The request has succeeded.
@@ -228,7 +208,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Retros.Retro'
+                  $ref: '#/components/schemas/Retro'
         '401':
           description: Access is unauthorized.
         '404':
@@ -236,10 +216,10 @@ paths:
     post:
       tags:
         - Retros
-      operationId: ByTeam_create
-      description: Create new retro belonging to the specified team
+      operationId: Retros_create
+      summary: Create new retro belonging to the specified team
       parameters:
-        - $ref: '#/components/parameters/Retros.ByTeam.Parameters'
+        - $ref: '#/components/parameters/team'
       responses:
         '201':
           description: The request has succeeded and a new resource has been created as a result.
@@ -252,27 +232,23 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Retros.Retro'
-  /teams/{teamId}/retros/{id}:
+              $ref: '#/components/schemas/Retro'
+  /teams/{teamId}/retros/{retroId}:
     get:
       tags:
         - Retros
-      operationId: ByTeam_read
-      description: Retreive a single retro belonging to the specified team
+      operationId: Retros_read
+      summary: Retreive a single retro belonging to the specified team
       parameters:
-        - $ref: '#/components/parameters/Retros.ByTeam.Parameters'
-        - name: id
-          in: path
-          required: true
-          schema:
-            $ref: '#/components/schemas/Id'
+        - $ref: '#/components/parameters/team'
+        - $ref: '#/components/parameters/retro'
       responses:
         '200':
           description: The request has succeeded.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Retros.Retro'
+                $ref: '#/components/schemas/Retro'
         '401':
           description: Access is unauthorized.
         '404':
@@ -280,22 +256,18 @@ paths:
     patch:
       tags:
         - Retros
-      operationId: ByTeam_update
-      description: Update a single retro belonging to the specified team
+      operationId: Retros_update
+      summary: Update a single retro belonging to the specified team
       parameters:
-        - $ref: '#/components/parameters/Retros.ByTeam.Parameters'
-        - name: id
-          in: path
-          required: true
-          schema:
-            $ref: '#/components/schemas/Id'
+        - $ref: '#/components/parameters/team'
+        - $ref: '#/components/parameters/retro'
       responses:
         '200':
           description: The request has succeeded.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Retros.Retro'
+                $ref: '#/components/schemas/Retro'
         '401':
           description: Access is unauthorized.
         '404':
@@ -305,16 +277,16 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Retros.RetroUpdate'
+              $ref: '#/components/schemas/RetroUpdate'
   /teams/{teamId}/retros/{retroId}/thoughts:
     get:
       tags:
         - Thoughts
-      operationId: ByRetro_list
-      description: List all thoughts belonging to the specified retro
+      operationId: Thoughts_list
+      summary: List all thoughts belonging to the specified retro
       parameters:
-        - $ref: '#/components/parameters/Thoughts.ByRetro.Parameters.teamId'
-        - $ref: '#/components/parameters/Thoughts.ByRetro.Parameters.retroId'
+        - $ref: '#/components/parameters/team'
+        - $ref: '#/components/parameters/retro'
       responses:
         '200':
           description: The request has succeeded.
@@ -323,124 +295,108 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Thoughts.Thought'
+                  $ref: '#/components/schemas/Thought'
     post:
       tags:
         - Thoughts
-      operationId: ByRetro_create
-      description: Create a new thought belonging to the specified retro
+      operationId: Thoughts_create
+      summary: Create a new thought belonging to the specified retro
       parameters:
-        - $ref: '#/components/parameters/Thoughts.ByRetro.Parameters.teamId'
-        - $ref: '#/components/parameters/Thoughts.ByRetro.Parameters.retroId'
+        - $ref: '#/components/parameters/team'
+        - $ref: '#/components/parameters/retro'
       responses:
         '200':
           description: The request has succeeded.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Thoughts.Thought'
+                $ref: '#/components/schemas/Thought'
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Thoughts.Thought'
-  /teams/{teamId}/retros/{retroId}/thoughts/{id}:
+              $ref: '#/components/schemas/Thought'
+  /teams/{teamId}/retros/{retroId}/thoughts/{thoughtId}:
     get:
       tags:
         - Thoughts
-      operationId: ByRetro_read
-      description: Retrieve a single thought belonging to the specified retro
+      operationId: Thoughts_read
+      summary: Retrieve a single thought belonging to the specified retro
       parameters:
-        - $ref: '#/components/parameters/Thoughts.ByRetro.Parameters.teamId'
-        - $ref: '#/components/parameters/Thoughts.ByRetro.Parameters.retroId'
-        - name: id
-          in: path
-          required: true
-          schema:
-            $ref: '#/components/schemas/Id'
+        - $ref: '#/components/parameters/team'
+        - $ref: '#/components/parameters/retro'
+        - $ref: '#/components/parameters/thought'
       responses:
         '200':
           description: The request has succeeded.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Thoughts.Thought'
+                $ref: '#/components/schemas/Thought'
     patch:
       tags:
         - Thoughts
-      operationId: ByRetro_update
-      description: Update a single thought belonging to the specified retro
+      operationId: Thoughts_update
+      summary: Update a single thought belonging to the specified retro
       parameters:
-        - $ref: '#/components/parameters/Thoughts.ByRetro.Parameters.teamId'
-        - $ref: '#/components/parameters/Thoughts.ByRetro.Parameters.retroId'
-        - name: id
-          in: path
-          required: true
-          schema:
-            $ref: '#/components/schemas/Id'
+        - $ref: '#/components/parameters/team'
+        - $ref: '#/components/parameters/retro'
+        - $ref: '#/components/parameters/thought'
       responses:
         '200':
           description: The request has succeeded.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Thoughts.Thought'
+                $ref: '#/components/schemas/Thought'
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Thoughts.ThoughtUpdate'
+              $ref: '#/components/schemas/ThoughtUpdate'
     delete:
       tags:
         - Thoughts
-      operationId: ByRetro_delete
-      description: Delete a single thought belonging to the specified retro
+      operationId: Thoughts_delete
+      summary: Delete a single thought belonging to the specified retro
       parameters:
-        - $ref: '#/components/parameters/Thoughts.ByRetro.Parameters.teamId'
-        - $ref: '#/components/parameters/Thoughts.ByRetro.Parameters.retroId'
-        - name: id
-          in: path
-          required: true
-          schema:
-            $ref: '#/components/schemas/Id'
+        - $ref: '#/components/parameters/team'
+        - $ref: '#/components/parameters/retro'
+        - $ref: '#/components/parameters/thought'
       responses:
         '200':
           description: The request has succeeded.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Thoughts.Thought'
-  /teams/{teamId}/retros/{retroId}/thoughts/{id}/vote:
+                $ref: '#/components/schemas/Thought'
+  /teams/{teamId}/retros/{retroId}/thoughts/{thoughtId}/vote:
     put:
       tags:
         - Thoughts
-      operationId: ByRetro_vote
-      description: Increment the vote count on a single thought belonging to the specified retro
+      operationId: Thoughts_vote
+      summary: Increment the vote count on a single thought belonging to the specified retro
       parameters:
-        - $ref: '#/components/parameters/Thoughts.ByRetro.Parameters.teamId'
-        - $ref: '#/components/parameters/Thoughts.ByRetro.Parameters.retroId'
-        - name: id
-          in: path
-          required: true
-          schema:
-            $ref: '#/components/schemas/Id'
+        - $ref: '#/components/parameters/team'
+        - $ref: '#/components/parameters/retro'
+        - $ref: '#/components/parameters/thought'
       responses:
         '200':
           description: The request has succeeded.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Thoughts.Thought'
+                $ref: '#/components/schemas/Thought'
   /teams/{teamId}/users:
     get:
       tags:
         - Users
-      operationId: ByTeam_list
-      description: List users of the specified team
+      operationId: Users_listByTeam
+      summary: List users of the specified team
       parameters:
-        - $ref: '#/components/parameters/Users.ByTeam.Parameters'
+        - $ref: '#/components/parameters/team'
       responses:
         '200':
           description: The request has succeeded.
@@ -449,24 +405,20 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Users.User'
+                  $ref: '#/components/schemas/User'
         '401':
           description: Access is unauthorized.
         '404':
           description: The server cannot find the requested resource.
-  /teams/{teamId}/users/{id}:
+  /teams/{teamId}/users/{userId}:
     put:
       tags:
         - Users
-      operationId: ByTeam_add
-      description: Add user to the specified team
+      operationId: Users_addToTeam
+      summary: Add user to the specified team
       parameters:
-        - $ref: '#/components/parameters/Users.ByTeam.Parameters'
-        - name: id
-          in: path
-          required: true
-          schema:
-            $ref: '#/components/schemas/Id'
+        - $ref: '#/components/parameters/team'
+        - $ref: '#/components/parameters/user'
       responses:
         '200':
           description: The request has succeeded.
@@ -477,15 +429,11 @@ paths:
     delete:
       tags:
         - Users
-      operationId: ByTeam_remove
-      description: Remove user from the specified team
+      operationId: Users_removeFromTeam
+      summary: Remove user from the specified team
       parameters:
-        - $ref: '#/components/parameters/Users.ByTeam.Parameters'
-        - name: id
-          in: path
-          required: true
-          schema:
-            $ref: '#/components/schemas/Id'
+        - $ref: '#/components/parameters/team'
+        - $ref: '#/components/parameters/user'
       responses:
         '200':
           description: The request has succeeded.
@@ -493,63 +441,59 @@ paths:
           description: Access is unauthorized.
         '404':
           description: The server cannot find the requested resource.
-  /users/{id}:
+  /users/{userId}:
     get:
       tags:
         - Users
       operationId: Users_read
-      description: Get current user
+      summary: Get current user
       parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            $ref: '#/components/schemas/Id'
+        - $ref: '#/components/parameters/user'
       responses:
         '200':
           description: The request has succeeded.
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Users.User'
+                $ref: '#/components/schemas/User'
         '401':
           description: Access is unauthorized.
         '404':
           description: The server cannot find the requested resource.
 components:
   parameters:
-    ActionItems.ByTeam.Parameters:
-      name: teamId
+    actionItem:
+      name: actionitemId
       in: path
       required: true
       schema:
         $ref: '#/components/schemas/Id'
-    Retros.ByTeam.Parameters:
-      name: teamId
-      in: path
-      required: true
-      schema:
-        $ref: '#/components/schemas/Id'
-    Thoughts.ByRetro.Parameters.retroId:
+    retro:
       name: retroId
       in: path
       required: true
       schema:
         $ref: '#/components/schemas/Id'
-    Thoughts.ByRetro.Parameters.teamId:
+    team:
       name: teamId
       in: path
       required: true
       schema:
         $ref: '#/components/schemas/Id'
-    Users.ByTeam.Parameters:
-      name: teamId
+    thought:
+      name: thoughtId
+      in: path
+      required: true
+      schema:
+        $ref: '#/components/schemas/Id'
+    user:
+      name: userId
       in: path
       required: true
       schema:
         $ref: '#/components/schemas/Id'
   schemas:
-    ActionItems.ActionItem:
+    ActionItem:
       type: object
       required:
         - id
@@ -566,7 +510,7 @@ components:
           default: false
         assignee:
           type: string
-    ActionItems.ActionItemUpdate:
+    ActionItemUpdate:
       type: object
       properties:
         task:
@@ -579,59 +523,7 @@ components:
     Id:
       type: string
       format: uuid
-    Metadata:
-      $ref: '#/components/schemas/Retros.Kinds.ColumnsMetadata'
-    MetadataUpdate:
-      $ref: '#/components/schemas/Retros.Kinds.ColumnsMetadataUpdate'
-    Retros.Kinds.Color:
-      type: string
-      pattern: '#[0-9a-fA-F]{6}'
-    Retros.Kinds.ColumnsMetadata:
-      type: object
-      required:
-        - kind
-        - columns
-      properties:
-        kind:
-          type: string
-          enum:
-            - columns
-        columns:
-          type: array
-          items:
-            type: object
-            properties:
-              name:
-                type: string
-              color:
-                $ref: '#/components/schemas/Retros.Kinds.Color'
-            required:
-              - name
-              - color
-    Retros.Kinds.ColumnsMetadataUpdate:
-      type: object
-      properties:
-        kind:
-          type: string
-          enum:
-            - columns
-        columns:
-          type: array
-          items:
-            type: object
-            properties:
-              name:
-                type: string
-              color:
-                $ref: '#/components/schemas/Retros.Kinds.Color'
-            required:
-              - name
-              - color
-    Retros.Kinds.Kind:
-      type: string
-      enum:
-        - columns
-    Retros.Retro:
+    Retro:
       type: object
       required:
         - id
@@ -644,21 +536,23 @@ components:
         name:
           type: string
         metadata:
-          $ref: '#/components/schemas/Metadata'
+          type: object
+          additionalProperties: {}
         completed:
           type: boolean
           default: false
-    Retros.RetroUpdate:
+    RetroUpdate:
       type: object
       properties:
         name:
           type: string
         metadata:
-          $ref: '#/components/schemas/MetadataUpdate'
+          type: object
+          additionalProperties: {}
         completed:
           type: boolean
           default: false
-    Teams.Team:
+    Team:
       type: object
       required:
         - id
@@ -670,12 +564,12 @@ components:
           readOnly: true
         name:
           type: string
-    Teams.TeamUpdate:
+    TeamUpdate:
       type: object
       properties:
         name:
           type: string
-    Thoughts.Thought:
+    Thought:
       type: object
       required:
         - id
@@ -696,7 +590,7 @@ components:
         index:
           type: integer
           default: 0
-    Thoughts.ThoughtUpdate:
+    ThoughtUpdate:
       type: object
       properties:
         message:
@@ -710,10 +604,12 @@ components:
         index:
           type: integer
           default: 0
-    Users.User:
+    User:
       type: object
       required:
         - id
       properties:
         id:
-          $ref: '#/components/schemas/Id'
+          allOf:
+            - $ref: '#/components/schemas/Id'
+          readOnly: true

@@ -7,50 +7,31 @@ using TypeSpec.Rest;
 
 namespace RetroSpec;
 
+@resource("retros")
+@parentResource(Team)
+model Retro {
+  @key("retroId") @visibility("read") id: Id;
+  name: string;
+  metadata?: Record<unknown>;
+  completed?: boolean = false;
+}
+
 @tag("Retros")
-namespace Retros {
-  model Retro {
-    @key @visibility("read") id: Id;
-    name: string;
-    metadata?: Kinds.Metadata;
-    completed?: boolean = false;
-  }
+@autoRoute
+interface Retros {
+  @listsResource(Retro)
+  @summary("List retros belonging to the specified team")
+  op list(...Parameters.Team): Retro[] | UnauthorizedResponse | NotFoundResponse;
 
-  namespace Kinds {
-    @pattern("#[0-9a-fA-F]{6}")
-    scalar Color extends string;
+  @createsResource(Retro)
+  @summary("Create new retro belonging to the specified team")
+  op create(...Parameters.Team, @body retro: Retro): CreatedResponse | UnauthorizedResponse | NotFoundResponse;
 
-    enum Kind {
-      Columns: "columns",
-    }
-  
-    @discriminator("kind")
-    union Metadata {
-      columns: ColumnsMetadata;
-    }
-  
-    model ColumnsMetadata {
-      kind: Kind.Columns;
-      columns: {name: string, color: Color}[];
-    }
-  }
+  @readsResource(Retro)
+  @summary("Retreive a single retro belonging to the specified team")
+  op read(...Parameters.TeamRetro): Retro | UnauthorizedResponse | NotFoundResponse;
 
-  @route("/teams/{teamId}/retros")
-  namespace ByTeam {
-    model Parameters {
-      @path @segment("teams") teamId: Id;
-    }
-
-    @doc("List retros belonging to the specified team")
-    op list(...Parameters): Retro[] | UnauthorizedResponse | NotFoundResponse;
-
-    @doc("Create new retro belonging to the specified team")
-    @post op create(...Parameters, @body retro: Retro): CreatedResponse | UnauthorizedResponse | NotFoundResponse;
-
-    @doc("Retreive a single retro belonging to the specified team")
-    op read(...Parameters, @path id: Id): Retro | UnauthorizedResponse | NotFoundResponse;
-
-    @doc("Update a single retro belonging to the specified team")
-    @patch op update(...Parameters, @path id: Id, @body retro: Retro): Retro | UnauthorizedResponse | NotFoundResponse;
-  }  
+  @updatesResource(Retro)
+  @summary("Update a single retro belonging to the specified team")
+  op update(...Parameters.TeamRetro, @body retro: Retro): Retro | UnauthorizedResponse | NotFoundResponse;
 }

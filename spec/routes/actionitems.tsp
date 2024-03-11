@@ -7,34 +7,34 @@ using TypeSpec.Rest;
 
 namespace RetroSpec;
 
+@resource("actionitems")
+model ActionItem {
+  @key("actionitemId") @visibility("read") id: Id;
+  task: string;
+  completed?: boolean = false;
+  assignee?: string;
+}
+
 @tag("Action Items")
-namespace ActionItems {
-  model ActionItem {
-    @key @visibility("read") id: Id;
-    task: string;
-    completed?: boolean = false;
-    assignee?: string;
-  }
+@autoRoute
+interface ActionItems {
+  @listsResource(ActionItem)
+  @summary("List all action items belonging to the specified team")
+  list(...Parameters.Team): ActionItem[] | UnauthorizedResponse | NotFoundResponse;
 
-  @route("/teams/{teamId}/actionitems")
-  namespace ByTeam {
-    model Parameters {
-      @path @segment("teams") teamId: Id;
-    }
+  @createsResource(ActionItem)
+  @summary("Create a new action item belonging to the specified team")
+  create(...Parameters.Team, @body actionItem: ActionItem): ActionItem | UnauthorizedResponse | NotFoundResponse;
 
-    @doc("List all action items belonging to the specified team")
-    op list(...Parameters): ActionItem[] | UnauthorizedResponse | NotFoundResponse;
+  @readsResource(ActionItem)
+  @summary("Retrieve a single action item belonging to the specified team")
+  read(...Parameters.TeamActionitem): ActionItem | UnauthorizedResponse | NotFoundResponse;
 
-    @doc("Create a new action item belonging to the specified team")
-    @post op create(...Parameters, @body actionItem: ActionItem): ActionItem | UnauthorizedResponse | NotFoundResponse;
+  @updatesResource(ActionItem)
+  @summary("Update a single action item belonging to the specified team")
+  update(...Parameters.TeamActionitem, @body actionItem: ActionItem): ActionItem | UnauthorizedResponse | NotFoundResponse;
 
-    @doc("Retrieve a single action item belonging to the specified team")
-    op read(...Parameters, @path id: Id): ActionItem | UnauthorizedResponse | NotFoundResponse;
-
-    @doc("Update a single action item belonging to the specified team")
-    @patch op update(...Parameters, @path id: Id, @body actionItem: ActionItem): ActionItem | UnauthorizedResponse | NotFoundResponse;
-
-    @doc("Delete a single action item belonging to the specified team")
-    @delete op delete(...Parameters, @path id: Id): ActionItem;
-  }
+  @deletesResource(ActionItem)
+  @summary("Delete a single action item belonging to the specified team")
+  delete(...Parameters.TeamActionitem): ActionItem;
 }

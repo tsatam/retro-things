@@ -2,4 +2,4 @@ emit:
   - "@typespec/openapi3"
 options:
   "@typespec/openapi3":
-    omit-unreachable-types: false
+    omit-unreachable-types: true

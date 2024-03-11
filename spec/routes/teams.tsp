@@ -7,23 +7,28 @@ using TypeSpec.Rest;
 
 namespace RetroSpec;
 
-@route("/teams")
+@resource("teams")
+model Team {
+  @key("teamId") @visibility("read") id: Id;
+  name: string;
+}
+
 @tag("Teams")
-namespace Teams {
-  model Team {
-    @key @visibility("read") id: Id;
-    name: string;
-  }
+@autoRoute
+interface Teams {
+  @listsResource(Team)
+  @summary("List teams the user has access to")
+  list(): Team[] | UnauthorizedResponse;
 
-  @doc("List teams the user has access to")
-  op list(): Team[] | UnauthorizedResponse;
+  @createsResource(Team)
+  @summary("Create a new team")
+  create(@body team: Team): CreatedResponse | UnauthorizedResponse;
 
-  @doc("Create a new team")
-  @post op create(@body team: Team): CreatedResponse | UnauthorizedResponse;
+  @readsResource(Team)
+  @summary("Retrieve a single team")
+  read(...Parameters.Team): Team | UnauthorizedResponse | NotFoundResponse;
 
-  @doc("Retrieve a single team")
-  op read(@path id: Id): Team | UnauthorizedResponse | NotFoundResponse;
-
-  @doc("Update a single team")
-  @patch op update(@path id: Id, @body team: Team): Team | UnauthorizedResponse | NotFoundResponse;
+  @updatesResource(Team)
+  @summary("Update a single team")
+  update(...Parameters.Team, @body team: Team): Team | UnauthorizedResponse | NotFoundResponse;
 }
